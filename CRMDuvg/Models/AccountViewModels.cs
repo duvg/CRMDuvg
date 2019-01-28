@@ -49,9 +49,8 @@ namespace CRMDuvg.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Correo electrónico")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Nombre de usuario")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +63,18 @@ namespace CRMDuvg.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Apellidos")]
+        public string Apellidos { get; set; }
+
+        [Required]
+        [Display(Name = "Nombre de Usuario")]
+        public string UserName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]

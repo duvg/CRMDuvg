@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using CRMDuvg.Models;
+using System.Net.Mail;
 
 namespace CRMDuvg
 {
@@ -19,7 +20,30 @@ namespace CRMDuvg
         public Task SendAsync(IdentityMessage message)
         {
             // Conecte su servicio de correo electrónico aquí para enviar correo electrónico.
-            return Task.FromResult(0);
+            SmtpClient client = new SmtpClient("smtp.gmail.com");
+
+            client.Port = 587;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("developerduvg@gmail.com","Developer@7786");
+            client.EnableSsl = true;
+            client.Credentials = credentials;
+
+            try
+            {
+                var mail = new MailMessage(Generales.EmailEnvio.Trim(), message.Destination.Trim());
+                mail.Subject = message.Subject;
+                mail.Body = message.Body;
+                client.Send(mail);
+                return Task.FromResult(0);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw ex;
+            }
+
+
         }
     }
 
@@ -49,6 +73,8 @@ namespace CRMDuvg
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
             };
+
+
 
             // Configure la lógica de validación de contraseñas
             manager.PasswordValidator = new PasswordValidator
@@ -85,6 +111,20 @@ namespace CRMDuvg
                     new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
+        }
+    }
+
+    // Configure the RoleManager used in the application. RoleManager is defined in the ASP.NET Identity core assembly
+    public class ApplicationRoleManager : RoleManager<IdentityRole>
+    {
+        public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore)
+            : base(roleStore)
+        {
+        }
+
+        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+        {
+            return new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
         }
     }
 
