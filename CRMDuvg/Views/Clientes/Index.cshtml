@@ -1,0 +1,127 @@
+﻿@model  CRMDuvg.Models.BusquedaClienteModelView
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-default" })
+</p>
+
+<div class="row">
+
+
+    @* Búscar por nombre *@
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5>Búscar por Nombre</h5>
+            </div>
+            <div class="panel-body">
+                <div class="container">
+                    @using (Ajax.BeginForm("BuscarNombre", "Clientes", null,
+                            new AjaxOptions
+                            {
+                                HttpMethod = "Post",
+                                UpdateTargetId = "ajaxtarget",
+                                LoadingElementId = "image_loading",
+                                InsertionMode = InsertionMode.Replace
+                            }, new { @class = "form-horizontal", role = "form" }
+
+                    ))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-error" })
+                        <div class="form-group">
+                            <label class="control-label">Nombre</label>
+                            @Html.TextBoxFor(t => t.NombreBuscar, new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-offset-2 col-lg-10">
+                                <input type="submit" value="Buscar" class="btn btn-primary" />
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    @* Buscar por Correo electronico *@
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>Búscar por correo electronico</h4>
+            </div>
+            <div class="panel-body">
+                <div class="container">
+                    @using (Ajax.BeginForm("BuscarEmail", "Clientes", null,
+                        new AjaxOptions
+                        {
+                            HttpMethod = "Post",
+                            UpdateTargetId = "ajaxtarget",
+                            LoadingElementId = "image_loading",
+                            InsertionMode = InsertionMode.Replace
+
+                        }, new { @class = "form-horizontal", role = "form" }))
+
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-error" })
+                        <div class="form-group">
+                            <label class="control-label">Email:</label>
+                            @Html.TextBoxFor(t => t.NombreBuscar, new { @style = "width : 300px", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" value="Búscar" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Búscar por telefono *@
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h5>Búscar por Telefono</h5>
+            </div>
+            <div class="panel-body">
+                <div class="container">
+                    @using (Ajax.BeginForm("BuscarTelefono", "Clientes", null,
+                        new AjaxOptions
+                        {
+                            HttpMethod = "Post",
+                            UpdateTargetId = "ajaxtarget",
+                            LoadingElementId = "image_loading",
+                            InsertionMode = InsertionMode.Replace
+                        }, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-error" })
+                        <div class="form-group">
+                            <label class="control-label">Telefono</label>
+                            @Html.TextBoxFor(t => t.NombreBuscar, new { @style = "width : 400px", @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary" namevalue="Búscar" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container">
+    <img id="image_loading"  src="~/imgs/loading.gif" width="30" height="30" style="display:none" />
+</div>
+<div id="ajaxtarget"></div>
+
+

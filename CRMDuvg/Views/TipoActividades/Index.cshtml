@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CRMDuvg.Models.TipoActividad>
+
+@{
+    ViewBag.Title = "Indice";
+}
+
+<h2>Listado Tipo de Actividades</h2>
+
+<p>
+    @Html.ActionLink("Crear Nuevo", "Create", null, new { @class="btn btn-primary"} )
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TipoActividadId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TipoActividadId })
+        </td>
+    </tr>
+}
+
+</table>
