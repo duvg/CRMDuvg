@@ -26,8 +26,31 @@
             }
         } else {
             if (self.lista.length > 0) {
-
+                var bandera = false;
+                for (var i = 0; i < self.lista.length; i++) {
+                    if (self.lista[i].Principal) {
+                        bandera = true;
+                        break;
+                    }
+                };
+                if (!bandera) {
+                    self.lista.[0].Principal = true;
+                }
             }
         }
+    };
+
+    this.Item = function (indice) {
+        if (indice < self.lista.length) {
+            return self.lista[indice];
+        } else {
+            return null;
+        }
+    };
+
+    this.Total = function () {
+        return self.lista.length;
     }
+
+
 }

@@ -11,7 +11,7 @@ using CRMDuvg.Models;
 namespace CRMDuvg.Controllers
 {
     public class ClientesController : Controller
-    {
+    {   
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Clientes
@@ -92,6 +92,16 @@ namespace CRMDuvg.Controllers
         // GET: Clientes/Create
         public ActionResult Create()
         {
+            var list = new SelectList(
+                new[] {
+                    new { ID="", Name="--SELECCIONE EL TIPO DE PERSONA"},
+                    new { ID="PERSONA FISICA", Name="PERSONA FISICA"},
+                    new { ID="PERSONA MORAL", Name="PERSONA MORAL" },
+                },
+                "ID", "Name", 1);
+            var tipos = new SelectList(db.TipoClientes.ToList(), "TipoClienteId", "NombreTipo");
+            ViewData["list"] = list;
+            ViewData["tipos"] = tipos;
             return View();
         }
 
@@ -100,7 +110,12 @@ namespace CRMDuvg.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ClienteId,Nombre,RFC,TipoPersonaSat")] Cliente cliente)
+        public ActionResult Create([Bind(Include = 
+            "ClienteId," +
+            "Nombre," +
+            "RFC," +
+            "TipoPersonaSat, " +
+            "TipoClienteId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {
@@ -119,11 +134,25 @@ namespace CRMDuvg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             Cliente cliente = db.Clientes.Find(id);
+
             if (cliente == null)
             {
                 return HttpNotFound();
             }
+
+            var list = new SelectList(
+                new[] {
+                    new { ID="", Name="--SELECCIONE EL TIPO DE PERSONA"},
+                    new { ID="PERSONA FISICA", Name="PERSONA FISICA"},
+                    new { ID="PERSONA MORAL", Name="PERSONA MORAL" },
+                },
+                "ID", "Name", 1);
+            var tipos = new SelectList(db.TipoClientes.ToList(), "TipoClienteId", "NombreTipo");
+            ViewData["list"] = list;
+            ViewData["tipos"] = tipos;
+
             return View(cliente);
         }
 
@@ -132,7 +161,7 @@ namespace CRMDuvg.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ClienteId,Nombre,RFC,TipoPersonaSat")] Cliente cliente)
+        public ActionResult Edit([Bind(Include = "ClienteId,Nombre,RFC,TipoPersonaSat,TipoClienteId")] Cliente cliente)
         {
             if (ModelState.IsValid)
             {

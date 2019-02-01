@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201901280109326_modelosSistema.Designer.cs">
       <DependentUpon>201901280109326_modelosSistema.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902010455499_TipoClienteId.cs" />
+    <Compile Include="Migrations\201902010455499_TipoClienteId.Designer.cs">
+      <DependentUpon>201902010455499_TipoClienteId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Actividad.cs" />
@@ -347,6 +351,7 @@
     <Content Include="admin-lte\css\adminlte.min.css.map" />
     <Content Include="admin-lte\css\adminlte.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\custom\Listas.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -469,6 +474,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901280109326_modelosSistema.resx">
       <DependentUpon>201901280109326_modelosSistema.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902010455499_TipoClienteId.resx">
+      <DependentUpon>201902010455499_TipoClienteId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

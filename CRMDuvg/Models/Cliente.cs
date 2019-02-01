@@ -11,6 +11,8 @@ namespace CRMDuvg.Models
 
         public string Nombre { get; set; }
 
+        public int TipoClienteId { get; set; }
+
         public TipoCliente Tipo { get; set; }
 
         public string RFC { get; set; }
