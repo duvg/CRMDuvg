@@ -12,7 +12,7 @@
         self.lista.push(valor);
     };
 
-    this.Eliminar = function(valor) {
+    this.Eliminar = function(indice) {
         if (indice < self.lista.length) {
             self.lista.splice(indice, 1);
         } 

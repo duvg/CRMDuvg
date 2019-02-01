@@ -110,21 +110,16 @@ namespace CRMDuvg.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = 
-            "ClienteId," +
-            "Nombre," +
-            "RFC," +
-            "TipoPersonaSat, " +
-            "TipoClienteId")] Cliente cliente)
+        public JsonResult Create(Cliente cliente)
         {
             if (ModelState.IsValid)
             {
                 db.Clientes.Add(cliente);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(true);
             }
 
-            return View(cliente);
+            return Json(false);
         }
 
         // GET: Clientes/Edit/5

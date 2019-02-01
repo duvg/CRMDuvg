@@ -22,7 +22,7 @@ function MostrarTelefonos(editar) {
             } else {
                 textPrincipal = 'No';
             }
-            $row.append($('<td/>').html(telefonoItems.Item(i).NumeroTelefonico));
+            $row.append($('<td/>').html(telefonoItems.Item(i).Numero));
             $row.append($('<td/>').html(telefonoItems.Item(i).Tipo));
             $row.append($('<td/>').html(textPrincipal));
             if (editar) {
@@ -125,7 +125,6 @@ function MostrarDirecciones(editar) {
 
         $table.append($tbody);
         $("#dirItems").html($table);
-        alert("asdsd");
     }
 }
 
@@ -157,7 +156,7 @@ function AddTelefono_Click() {
 
         telefonoItems.Agregar({
             TelefonoId: 0,
-            NumeroTelefonico: $("#Telefono").val().trim(),
+            Numero: $("#Telefono").val().trim(),
             Tipo: $("#Tipo").val().trim(),
             Principal: vPrincipal,
         });
@@ -264,7 +263,6 @@ function AddDireccion_Click() {
         $("#DirPrincipal").attr('checked', false);
 
     }
-    alert("mostrarar las direcciones");
     MostrarDirecciones(true);
 }
 
@@ -288,4 +286,55 @@ function EliminarDir(indice) {
     direccionesItems.Eliminar(indice);
     MostrarDirecciones(true);
     return false;
+}
+
+
+// Guarda los datos del clientes en la BD
+
+function crear_CLick() {
+    // Valdacion dell cliente
+    var isAllValid = true;
+    if ($("#Nombre").val().trim() == '') {
+        $("#Nombre").siblings('span.error').css('visibility', 'visible');
+        isAllValid = false;
+    } else {
+        $("#Nombre").siblings('span.error').css('visibility', 'hidden');
+    }
+
+    if ($("#TipoClienteId").val().trim() == '') {
+        $("#TipoClienteId").siblings('span.error').css('visibility', 'visible');
+        isAllValid = false;
+    } else {
+        $("#TipoClienteId").siblings('span.error').css('visibility', 'hidden');
+    }
+
+    var data = {
+        ClienteId: 0,
+        Nombre: $("#Nombre").val().trim(),
+        RFC: $("#RFC").val().trim(),
+        TipoClienteId: $("#TipoClienteId").val().trim(),
+        TipoPersonaSat: $("#TipoPersonaSat").val().trim(),
+        Telefonos: telefonoItems.lista,
+        Correos: emailItems.lista,
+        Direcciones: direccionesItems.lista
+    };
+
+    var token = $('[name=__RequestVerificationToken]').val();
+
+    $.ajax({
+        url: '/Clientes/Create',
+        type: 'POST',
+        data: { __RequestVerificationToken: token, cliente: data },
+        success: ((d) => {
+            if (d == true) {
+                window.location.href = '/Clientes/Index';
+            } else {
+                alert('Error al guardar los datos del cliente');
+            }
+        }),
+        error: ((e) => {
+            console.log(e);
+            alert("Error, intente nuevamente");
+        })
+    });
 }
