@@ -7,59 +7,224 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
-    <h4>Cliente</h4>
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.RFC, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.RFC, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RFC, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        <h4>Cliente</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.TipoPersonaSat, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.TipoPersonaSat, ViewData["list"] as SelectList, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.TipoPersonaSat, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.RFC, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RFC, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RFC, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.TipoClienteId, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownListFor(model => model.TipoClienteId, ViewData["tipos"] as SelectList, 
-            "--SELECCIONE EL TIPO DE DE CLIENTE", new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.TipoClienteId, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TipoPersonaSat, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TipoPersonaSat, ViewData["list"] as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoPersonaSat, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+        <div class="form-group">
+            @Html.LabelFor(model => model.TipoClienteId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TipoClienteId, ViewData["tipos"] as SelectList,
+                "--SELECCIONE EL TIPO DE DE CLIENTE", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoClienteId, "", new { @class = "text-danger" })
+            </div>
         </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
+
+
+
     </div>
-</div>
 }
+    <div class="panel-group" id="accordion">
+        @* Telefonos del cliente *@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Telefonos</a>
+                </h4>
+            </div>
+
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="Telefono">Telefono</label>
+                            <input type="text" id="Telefono" class="form-control" />
+                            <span class="error">El Telefono es requerido</span>
+                        </div>
+                        <div class="form-group">
+                            <label for="Tipo">Tipo</label>
+                            <input type="text" id="Tipo" class="form-control" />
+                            <span class="error">El Tipo es requerido</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="TelPrincipal" value="1" class="form-control" /> Principal
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="button" id="addTelefono" value="Agregar" class="btn btn-primary" />
+                        </div>
+                    </form>
+                    <br />
+                    <div class="row">
+                        <div id="telItems" class="col-md-12">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+        @* Emails dl cliente *@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Emails</a>
+                </h4>
+            </div>
+
+            <div id="collapse2" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="Email">Email</label>
+                            <input type="text" id="Email" class="form-control" />
+                            <span class="error">El Email es requerido</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="EmailPrincipal" value="1" class="form-control" /> Principal
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="button" id="addEmail" value="Agregar" class="btn btn-primary" />
+                        </div>
+                    </form>
+                    <br />
+                    <div class="row">
+                        <div id="emailItems" class="col-md-12">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        @* Direcciones dl cliente *@
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Direcciones</a>
+                </h4>
+            </div>
+
+            <div id="collapse3" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="Calle">Calle</label>
+                            <input type="text" id="Calle" class="form-control" />
+                            <span class="error">El Calle es requerido</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="NumExterior">Número Exterior </label>
+                            <input type="text" id="NumExterior" class="form-control" />
+                            <span class="error">El Numero Exterior es requerido</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="NumInterior">Número Interior </label>
+                            <input type="text" id="NumInterior" class="form-control" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Departamento">Departamento </label>
+                            <input type="text" id="Departamento" class="form-control" />
+                            <span class="error">El Departamento es requerido</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Municipio">Municipio </label>
+                            <input type="text" id="Municipio" class="form-control" />
+                            <span class="error">El Municipio es requerido</span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="DirPrincipal" value="1" class="form-control" /> Principal
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="button" id="addDireccion" value="Agregar" class="btn btn-primary" />
+                        </div>
+                    </form>
+                    <br />
+                    <div class="row">
+                        <div id="dirItems" class="col-md-12">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Regresar al listado", "Index")
 </div>
 
 @section Scripts {
+    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/custom/Listas.js")"></script>
+    <script src="@Url.Content("~/Scripts/custom/FuncionesCliente.js")"></script>
+    <script>
+        $(document).ready(function () {
+            $("#addTelefono").click(AddTelefono_Click);
+            $("#addEmail").click(AddEmail_Click);
+            $("#addDireccion").click(AddDireccion_Click);
+        });
+    </script>
 }

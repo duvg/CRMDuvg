@@ -12,7 +12,7 @@
         self.lista.push(valor);
     };
 
-    this.Eliminar = funcrion(valor) {
+    this.Eliminar = function(valor) {
         if (indice < self.lista.length) {
             self.lista.splice(indice, 1);
         } 
@@ -34,7 +34,7 @@
                     }
                 };
                 if (!bandera) {
-                    self.lista.[0].Principal = true;
+                    self.lista[0].Principal = true;
                 }
             }
         }
