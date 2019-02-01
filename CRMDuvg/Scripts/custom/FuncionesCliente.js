@@ -338,3 +338,54 @@ function crear_CLick() {
         })
     });
 }
+
+
+// Guardar las modificaciones de los datos del cliente
+function modificar_CLick() {
+    // Validación del cliente
+    var isAllValid = true;
+
+    if ($('#Nombre').val().trim() == '') {
+        $('#Nombre').siblings('span.error').css('visibility', 'visible');
+    } else {
+        $('#Nombre').siblings('span.error').css('visibility', 'hidden');
+    }
+
+    if ($('#TipoClienteId').val().trim() == '') {
+        $('#TipoClienteId').siblings('span.error').css('visibility', 'visible');
+    } else {
+        $('#TipoClienteId').siblings('span.error').css('visibility', 'hidden');
+    }
+
+    if (isAllValid) {
+        var data = {
+            ClienteId: $('#ClienteId').val().trim(),
+            Nombre: $('#Nombre').val().trim(),
+            RFC: $('#RFC').val().trim(),
+            TipoPersonaSat: $('#TipoPersonaSat').val().trim(),
+            TipoClienteId: $('#TipoClienteId').val().trim(),
+            Telefonos: telefonoItems.lista,
+            Correos: emailItems.lista,
+            Direcciones: direccionesItems.lista
+        }
+        var idCliente = $('#ClienteId').val().trim();
+        var token = $('[name=__RequestVerificationToken]').val();
+        var url = '/Clientes/Edit/' + idCliente
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: { __RequestVerificationToken: token, cliente: data },
+            success: ((d) => {
+                if (d === true) {
+                    window.location.href = "/Clientes/Index";
+                } else {
+                    alert('Ocurrio un error al intentar guardar los cambios');
+                }
+            }),
+            error: (() => {
+                alert('Error, porfavor intente de nuevo');
+            })
+        });
+    }
+}
+
