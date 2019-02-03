@@ -82,6 +82,14 @@ namespace CRMDuvg.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Cliente cliente = db.Clientes.Find(id);
+            db.Entry(cliente).Reference("Tipo").Load();
+
+            db.Entry(cliente).Collection(p => p.Telefonos).Load();
+            db.Entry(cliente).Collection(p => p.Correos).Load();
+            db.Entry(cliente).Collection(p => p.Direcciones).Load();
+            
+
+
             if (cliente == null)
             {
                 return HttpNotFound();
@@ -194,6 +202,7 @@ namespace CRMDuvg.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Cliente cliente = db.Clientes.Find(id);
+            db.Entry(cliente).Reference("Tipo").Load();
             if (cliente == null)
             {
                 return HttpNotFound();
@@ -207,6 +216,23 @@ namespace CRMDuvg.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Cliente cliente = db.Clientes.Find(id);
+
+            // Eliminar los telefonos del cliente
+            db.Entry(cliente).Collection(p => p.Telefonos).Load();
+            cliente.Telefonos.ToList<Telefono>()
+                .ForEach(t => db.Entry(t).State = System.Data.Entity.EntityState.Deleted);
+
+            // Eliminar los Correos del cliente
+            db.Entry(cliente).Collection(p => p.Correos).Load();
+            cliente.Correos.ToList<Email>()
+                .ForEach(t => db.Entry(t).State = System.Data.Entity.EntityState.Deleted);
+
+            // Eliminar las direcciones del cliente
+            db.Entry(cliente).Collection(p => p.Direcciones).Load();
+            cliente.Direcciones.ToList<Direccion>()
+                .ForEach(t => db.Entry(t).State = System.Data.Entity.EntityState.Deleted);
+
+
             db.Clientes.Remove(cliente);
             db.SaveChanges();
             return RedirectToAction("Index");

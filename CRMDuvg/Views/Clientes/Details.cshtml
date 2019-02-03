@@ -1,10 +1,10 @@
 ﻿@model CRMDuvg.Models.Cliente
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalle";
 }
 
-<h2>Details</h2>
+<h2>Detalle</h2>
 
 <div>
     <h4>Cliente</h4>
@@ -27,6 +27,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Tipo.NombreTipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tipo.NombreTipo)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.TipoPersonaSat)
         </dt>
 
@@ -36,7 +44,109 @@
 
     </dl>
 </div>
+
+<div class="container" id="accordion">
+    @* Telefonos del cliente *@
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Telefonos
+            </h4>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div id="telItems" class="col-md-12">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    @* Emails dl cliente *@
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Emails
+            </h4>
+        </div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div id="emailItems" class="col-md-12">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @* Direcciones dl cliente *@
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                Direcciones
+            </h4>
+        </div>
+
+
+        <div class="panel-body">
+            <div class="row">
+                <div id="dirItems" class="col-md-12">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ClienteId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ClienteId }) |
+    @Html.ActionLink("Regresar al listado", "Index")
 </p>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="@Url.Content("~/Scripts/custom/Listas.js")"></script>
+    <script src="@Url.Content("~/Scripts/custom/FuncionesCliente.js")"></script>
+    <script>
+        // Cargar los datos del cliente desde el modelo
+
+        // Cargar los telefonos
+        function cargarTelefonos() {
+            @foreach (var t in Model.Telefonos)
+            {
+                @:telefonoItems.Agregar( @Html.Raw(Json.Encode(t)));
+            }
+        }
+
+        // Cargar Emails
+        function cargarEmails() {
+            @foreach (var e in Model.Correos)
+            {
+                @:emailItems.Agregar( @Html.Raw(Json.Encode(e)));
+            }
+        }
+
+        // Cargar Direcciones
+        function cargarDirecciones() {
+            @foreach (var d in Model.Direcciones)
+            {
+                @:direccionesItems.Agregar( @Html.Raw(Json.Encode(d)));
+            }
+        }
+
+
+        $(document).ready(function () {
+            cargarTelefonos();
+            cargarEmails();
+            cargarDirecciones();
+            MostrarTelefonos(false);
+            MostrarEmails(false);
+            MostrarDirecciones(false);
+        });
+    </script>
+}
+
